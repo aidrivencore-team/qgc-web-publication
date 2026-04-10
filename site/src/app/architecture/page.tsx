@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ArchitecturePage() {
-  const documents = await getDocuments([
+  const documents = await getDocuments("qgroundcontrol", [
     "02_SYSTEM_ARCHITECTURE.md",
     "03_DATA_FLOW.md",
   ]);

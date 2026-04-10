@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductLogicPage() {
-  const documents = await getDocuments([
+  const documents = await getDocuments("qgroundcontrol", [
     "04_PRODUCT_LOGIC.md",
     "05_ARCHITECTURE_DECISIONS.md",
   ]);

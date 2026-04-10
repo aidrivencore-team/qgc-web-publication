@@ -2,13 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navigation } from "@/lib/navigation";
+import { projectSections } from "@/lib/navigation";
+import type { NavItem } from "@/lib/navigation";
 import {
   Home,
   Search,
   Layers,
   Briefcase,
   Target,
+  Monitor,
+  Settings,
+  Anchor,
+  ClipboardList,
+  Shield,
+  Map,
   ChevronRight,
   Menu,
   X,
@@ -21,11 +28,85 @@ const iconMap: Record<string, React.ReactNode> = {
   layers: <Layers size={18} />,
   briefcase: <Briefcase size={18} />,
   target: <Target size={18} />,
+  monitor: <Monitor size={18} />,
+  settings: <Settings size={18} />,
+  anchor: <Anchor size={18} />,
+  clipboard: <ClipboardList size={18} />,
+  shield: <Shield size={18} />,
+  map: <Map size={18} />,
 };
+
+function NavItemLink({
+  item,
+  pathname,
+  onNavigate,
+  accentClass,
+}: {
+  item: NavItem;
+  pathname: string;
+  onNavigate: () => void;
+  accentClass: string;
+}) {
+  const isActive =
+    pathname === item.href || pathname === item.href.replace(/\/$/, "");
+  const isSection =
+    item.href !== "/" &&
+    item.href !== "/mp/" &&
+    pathname.startsWith(item.href.replace(/\/$/, ""));
+
+  return (
+    <div>
+      <Link
+        href={item.href}
+        onClick={onNavigate}
+        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+          isActive || isSection
+            ? `${accentClass} font-medium`
+            : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50"
+        }`}
+      >
+        <span
+          className={
+            isActive || isSection ? accentClass.split(" ")[0] : "text-zinc-500"
+          }
+        >
+          {iconMap[item.icon]}
+        </span>
+        <span className="flex-1">{item.title}</span>
+        {item.children && (
+          <ChevronRight
+            size={14}
+            className={`transition-transform ${
+              isSection ? "rotate-90" : ""
+            }`}
+          />
+        )}
+      </Link>
+
+      {/* Sub-items */}
+      {item.children && isSection && (
+        <div className="ml-9 mt-1 space-y-0.5 border-l border-zinc-800 pl-3">
+          {item.children.map((child) => (
+            <Link
+              key={child.href}
+              href={child.href}
+              onClick={onNavigate}
+              className="block px-2 py-1.5 text-xs text-zinc-500 hover:text-cyan-400 transition-colors rounded"
+            >
+              {child.title}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  const closeMenu = () => setOpen(false);
 
   return (
     <>
@@ -42,7 +123,7 @@ export function Sidebar() {
       {open && (
         <div
           className="fixed inset-0 z-30 bg-black/50 lg:hidden"
-          onClick={() => setOpen(false)}
+          onClick={closeMenu}
         />
       )}
 
@@ -54,74 +135,60 @@ export function Sidebar() {
       >
         {/* Logo */}
         <div className="h-16 flex items-center px-6 border-b border-zinc-800">
-          <Link href="/" className="flex items-center gap-3 group" onClick={() => setOpen(false)}>
+          <Link href="/" className="flex items-center gap-3 group" onClick={closeMenu}>
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
-              Q
+              G
             </div>
             <div>
               <span className="text-sm font-semibold text-white group-hover:text-cyan-400 transition-colors">
-                QGC Analysis
+                GCS Analysis
               </span>
               <span className="block text-[10px] text-zinc-500 font-mono">
-                Maritime GCS
+                Maritime Platform
               </span>
             </div>
           </Link>
         </div>
 
         {/* Nav items */}
-        <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100vh-4rem)]">
-          {navigation.map((item) => {
-            const isActive =
-              pathname === item.href ||
-              pathname === item.href.replace(/\/$/, "");
-            const isSection =
-              item.href !== "/" && pathname.startsWith(item.href.replace(/\/$/, ""));
+        <nav className="p-4 overflow-y-auto h-[calc(100vh-4rem)]">
+          {projectSections.map((section, sIdx) => {
+            const isMP = section.slug === "mp";
+            const accentClass = isMP
+              ? "bg-amber-500/10 text-amber-400"
+              : "bg-cyan-500/10 text-cyan-400";
 
             return (
-              <div key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
-                    isActive || isSection
-                      ? "bg-cyan-500/10 text-cyan-400 font-medium"
-                      : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50"
-                  }`}
-                >
-                  <span
-                    className={
-                      isActive || isSection ? "text-cyan-400" : "text-zinc-500"
-                    }
-                  >
-                    {iconMap[item.icon]}
-                  </span>
-                  <span className="flex-1">{item.title}</span>
-                  {item.children && (
-                    <ChevronRight
-                      size={14}
-                      className={`transition-transform ${
-                        isSection ? "rotate-90" : ""
-                      }`}
-                    />
-                  )}
-                </Link>
-
-                {/* Sub-items */}
-                {item.children && isSection && (
-                  <div className="ml-9 mt-1 space-y-0.5 border-l border-zinc-800 pl-3">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        onClick={() => setOpen(false)}
-                        className="block px-2 py-1.5 text-xs text-zinc-500 hover:text-cyan-400 transition-colors rounded"
-                      >
-                        {child.title}
-                      </Link>
-                    ))}
-                  </div>
+              <div key={section.slug}>
+                {/* Section divider */}
+                {sIdx > 0 && (
+                  <div className="my-4 border-t border-zinc-800" />
                 )}
+
+                {/* Section label */}
+                <div className="px-3 mb-2 flex items-center gap-2">
+                  <div
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      isMP ? "bg-amber-500" : "bg-cyan-500"
+                    }`}
+                  />
+                  <span className="text-[10px] uppercase tracking-wider text-zinc-600 font-medium">
+                    {section.label}
+                  </span>
+                </div>
+
+                {/* Items */}
+                <div className="space-y-1">
+                  {section.items.map((item) => (
+                    <NavItemLink
+                      key={item.href}
+                      item={item}
+                      pathname={pathname}
+                      onNavigate={closeMenu}
+                      accentClass={accentClass}
+                    />
+                  ))}
+                </div>
               </div>
             );
           })}
@@ -130,10 +197,10 @@ export function Sidebar() {
           <div className="pt-6 mt-6 border-t border-zinc-800">
             <div className="px-3 space-y-2">
               <div className="text-[10px] uppercase tracking-wider text-zinc-600 font-medium">
-                Проект
+                Проекты
               </div>
               <div className="text-xs text-zinc-500">
-                QGroundControl → Maritime GCS
+                QGroundControl • Mission Planner
               </div>
               <div className="text-[10px] text-zinc-600 font-mono">
                 Апрель 2026

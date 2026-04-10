@@ -4,16 +4,16 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s — QGC Maritime Analysis",
-    default: "QGC Maritime Analysis — Техническая публикация",
+    template: "%s — GCS Analysis",
+    default: "GCS Analysis — QGroundControl & Mission Planner",
   },
   description:
-    "Комплексный технический анализ QGroundControl и целевая архитектура Maritime Ground Control Station для автономных надводных аппаратов.",
+    "Комплексный технический анализ QGroundControl и Mission Planner: архитектура, продуктовая логика, модернизация GCS для автономных надводных аппаратов.",
   metadataBase: new URL("https://qgc-web-publication.vercel.app"),
   openGraph: {
-    title: "QGC Maritime Analysis",
+    title: "GCS Analysis",
     description:
-      "Технический аудит QGroundControl → Maritime GCS Architecture",
+      "Технический аудит QGroundControl & Mission Planner → Maritime GCS",
     type: "website",
     locale: "ru_RU",
   },

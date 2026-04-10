@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function TargetStatePage() {
-  const documents = await getDocuments([
+  const documents = await getDocuments("qgroundcontrol", [
     "06_GAP_ANALYSIS.md",
     "07_TARGET_ARCHITECTURE.md",
   ]);

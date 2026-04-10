@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search, Layers, Briefcase, Target, ArrowRight } from "lucide-react";
+import { Search, Layers, Briefcase, Target, Monitor, Settings, Anchor, ClipboardList, ArrowRight } from "lucide-react";
 
 const sections = [
   {
@@ -33,6 +33,38 @@ const sections = [
     href: "/target-state/",
     icon: Target,
     color: "from-rose-500 to-pink-600",
+  },
+  {
+    title: "UI / UX анализ",
+    description:
+      "Глубокий анализ экранов: Fly View (оперативное управление), Plan View (миссии), Setup (конфигурация).",
+    href: "/ui-analysis/",
+    icon: Monitor,
+    color: "from-indigo-500 to-violet-600",
+  },
+  {
+    title: "Инструменты и настройки",
+    description:
+      "Analyze Tools, Application Settings и карта UI-действий пользователя.",
+    href: "/tools-and-config/",
+    icon: Settings,
+    color: "from-slate-400 to-zinc-500",
+  },
+  {
+    title: "Maritime / Boat",
+    description:
+      "Режимы управления ArduPilot Boat, логика поведения системы и SITL тест-план для надводных аппаратов.",
+    href: "/maritime/",
+    icon: Anchor,
+    color: "from-sky-500 to-blue-700",
+  },
+  {
+    title: "Обзор продукта",
+    description:
+      "System Capabilities, User Workflows и Feature Analysis — полная продуктовая картина QGC.",
+    href: "/product-overview/",
+    icon: ClipboardList,
+    color: "from-lime-500 to-green-600",
   },
 ];
 
@@ -129,20 +161,47 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Also: Mission Planner */}
+      <section className="px-6 lg:px-12 py-8 border-t border-zinc-800">
+        <Link
+          href="/mp/"
+          className="group flex items-center gap-4 p-5 rounded-xl border border-zinc-800 hover:border-amber-500/30 hover:bg-amber-500/5 transition-all duration-300 max-w-xl"
+        >
+          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 opacity-80 group-hover:opacity-100 transition-opacity shrink-0">
+            <span className="text-white font-bold text-sm">M</span>
+          </div>
+          <div className="flex-1">
+            <div className="text-[10px] uppercase tracking-wider text-zinc-600 mb-0.5">
+              Также в проекте
+            </div>
+            <div className="text-sm font-medium text-zinc-300 group-hover:text-amber-400 transition-colors">
+              Mission Planner — Technical Analysis
+            </div>
+            <div className="text-xs text-zinc-500 mt-0.5">
+              15 документов • C# / WinForms • ArduPilot GCS
+            </div>
+          </div>
+          <ArrowRight
+            size={16}
+            className="text-zinc-600 group-hover:text-amber-400 group-hover:translate-x-1 transition-all shrink-0"
+          />
+        </Link>
+      </section>
+
       {/* Meta */}
       <section className="px-6 lg:px-12 py-8 border-t border-zinc-800">
         <div className="flex flex-wrap gap-6 text-xs text-zinc-600">
           <div>
-            <span className="text-zinc-500">Документов:</span> 8
+            <span className="text-zinc-500">Документов:</span> 34
           </div>
           <div>
-            <span className="text-zinc-500">Объём:</span> ~190KB
+            <span className="text-zinc-500">Проектов:</span> 2
           </div>
           <div>
             <span className="text-zinc-500">Фокус:</span> Maritime ASV
           </div>
           <div>
-            <span className="text-zinc-500">Стадия:</span> Core complete, UI/UX in progress
+            <span className="text-zinc-500">Стадия:</span> Full analysis complete
           </div>
         </div>
       </section>

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AuditPage() {
-  const documents = await getDocuments(["01_CODEBASE_AUDIT_REPORT.md"]);
+  const documents = await getDocuments("qgroundcontrol", ["01_CODEBASE_AUDIT_REPORT.md"]);
   const prevNext = getPrevNext("/audit/");
 
   return <ContentPage documents={documents} prevNext={prevNext} />;
